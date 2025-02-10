@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../services/upload.service';
 import { InsertedRecord } from '../models/upload-response.model';
-import * as Papa from 'papaparse';
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-table',
@@ -40,8 +41,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-
-  //delete fct
+  // Delete function
   deleteRecord(record: any, index: number): void {
     if (!confirm('Are you sure you want to delete this record?')) return;
 
@@ -54,8 +54,6 @@ export class TableComponent implements OnInit {
       }
     });
   }
-
-
 
   exportCSV() {
     if (this.insertedRecords.length === 0) {
@@ -85,12 +83,12 @@ export class TableComponent implements OnInit {
     console.log('Delete record:', record);
   }
 
-  // ✅ Open the Add Record modal
+  // Open the Add Record modal
   openAddModal() {
     this.isAddModalOpen = true;
   }
 
-  // ✅ Close the Add Record modal
+  // Close the Add Record modal
   closeAddModal() {
     this.isAddModalOpen = false;
     this.newRecord = {
@@ -101,14 +99,14 @@ export class TableComponent implements OnInit {
     };
   }
 
-  // ✅ Handle form submission (Add new record)
+  // Handle form submission (Add new record)
   onAdd() {
     if (!this.newRecord.nombreDuPersonnel || !this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
       this.errors.push('Please fill all fields.');
       return;
     }
 
-    // ✅ Convert date fields before sending
+    // Convert date fields before sending
     const formattedRecord = {
       ...this.newRecord,
       inTime: this.formatDate(this.newRecord.inTime),
@@ -116,19 +114,19 @@ export class TableComponent implements OnInit {
     };
 
     this.uploadService.addRecord(formattedRecord).subscribe(
-      (response:any) => {
+      (response: any) => {
         console.log('Record added successfully:', response);
         this.closeAddModal();
         this.fetchData(); // Refresh data after adding
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Error adding record:', error);
         this.errors.push('Failed to add record.');
       }
     );
   }
 
-  // ✅ Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
+  // Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
   formatDate(date: string): string {
     if (!date) return '';
 

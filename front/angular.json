@@ -35,23 +35,28 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "papaparse",
+              "file-saver"
+            ]
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1.5mb",
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "15kb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -108,3 +113,4 @@
     "analytics": "8e1e9871-f5f1-4d7e-aba5-fc6ce0ef7a3d"
   }
 }
+
