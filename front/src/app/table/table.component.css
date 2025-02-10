@@ -1,0 +1,376 @@
+.card {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+  margin: auto;
+}
+
+/* Table Styles */
+.p-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Table Header */
+.p-table th {
+  background: #f8f9fa;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Table Body */
+.p-table td {
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+/* Editable Input Fields */
+.p-inputtext {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+/* Buttons Group */
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+button .pi {
+  font-size: 1.2rem;
+  background-color: #28a745;
+}
+
+/* Button Colors */
+.pi-pencil {
+  color: #007bff;
+}
+.pi-check {
+  color: #28a745;
+}
+.pi-times {
+  color: #dc3545;
+}
+
+/* Status Tags */
+.p-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Status Colors */
+.p-tag-success {
+  background: #28a745;
+  color: white;
+}
+.p-tag-warning {
+  background: #ffc107;
+  color: #212529;
+}
+.p-tag-danger {
+  background: #dc3545;
+  color: white;
+}
+
+/* Top Buttons Container */
+.top-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  background: white; /* Add a background color to avoid content showing through */
+  z-index: 1000; /* Ensure it stays above other content */
+  padding: 1rem 0; /* Add padding for better spacing */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+}
+
+/* Add Record Button */
+.add-record-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-record-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Export Button */
+.export-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.export-button:hover {
+  background-color: #218838;
+}
+
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal */
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background: #bbb;
+}
+
+.add-button {
+  background: #007bff;
+  color: white;
+}
+
+.add-button:hover {
+  background: #0056b3;
+}
+
+
+
+
+/* Calendar Styles */
+.p-calendar {
+  width: 100%;
+}
+
+.p-calendar .p-inputtext {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.p-calendar .p-datepicker {
+  z-index: 1001; /* Ensure the calendar appears above the modal */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Fields */
+.modal-field {
+  margin-bottom: 15px;
+}
+
+.modal-field label {
+  display: block;
+  font-weight: bold;
+}
+
+.modal-field input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.confirm-button {
+  background-color: green;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.delete-button {
+  background-color: #e74c3c; /* Red background */
+  color: white; /* White text */
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: scale(1.05); /* Slightly bigger on hover */
+}
+
+.delete-button:active {
+  background-color: #a93226; /* Even darker red when clicked */
+  transform: scale(0.95);
+}
+
+
+.cancel-button {
+  background-color: red;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+      max-width: 100%;
+      padding: 0.5rem;
+  }
+  .p-table th, .p-table td {
+      padding: 8px;
+      font-size: 0.9rem;
+  }
+  .p-inputtext {
+      font-size: 0.9rem;
+  }
+  .add-record-button, .export-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+  }
+}

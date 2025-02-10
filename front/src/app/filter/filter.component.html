@@ -1,0 +1,67 @@
+<!--div class="card">
+  <div class="input-group">
+      <div class="input-field">
+          <label for="dateStart">Date Start</label>
+          <input id="dateStart" type="datetime-local" class="input-box" [(ngModel)]="dateStart" />
+      </div>
+      <div class="input-field">
+          <label for="dateEnd">Date End</label>
+          <input id="dateEnd" type="datetime-local" class="input-box" [(ngModel)]="dateEnd" />
+      </div>
+      <div class="input-field">
+          <label for="personnel">Numero du personnel</label>
+          <input id="personnel" type="number" class="input-box" [(ngModel)]="personnelNumber" />
+      </div>
+  </div>
+
+  <div class="button-container">
+      <button id="filterButton" class="btn" (click)="filterRecords()">Filter</button>
+  </div>
+</div-->
+
+
+
+
+
+<div class="card">
+  <div class="input-group">
+    <div class="input-field">
+      <label for="dateStart">Date Start</label>
+      <input id="dateStart" type="datetime-local" class="input-box" [(ngModel)]="dateStart" />
+    </div>
+    <div class="input-field">
+      <label for="dateEnd">Date End</label>
+      <input id="dateEnd" type="datetime-local" class="input-box" [(ngModel)]="dateEnd" />
+    </div>
+    <div class="input-field">
+      <label for="personnel">Numero du personnel</label>
+      <input id="personnel" type="number" class="input-box" [(ngModel)]="personnelNumber" />
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button id="filterButton" class="btn" (click)="filterRecords()">Filter</button>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+  <p-table *ngIf="filteredRecords.length > 0" [value]="filteredRecords" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Personnel Number</th>
+        <th>Name</th>
+        <th>In Time</th>
+        <th>Out Time</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-record>
+      <tr>
+        <td>{{ record.nombreDuPersonnel }}</td>
+        <td>{{ record.prenom }}</td>
+        <td>{{ record.inTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+        <td>{{ record.outTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+

@@ -1,0 +1,63 @@
+/* General styles */
+*, ::after, ::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navbar container */
+.col {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Black background with transparency */
+  color: white;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar content */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+/* Logo styles */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1b1ecb;
+}
+
+.logo span {
+  color: #11b816; /* Add some color to the secondary name */
+}
+
+/* Links container */
+.links {
+  display: flex;
+  gap: 15px;
+}
+
+/* Individual link */
+.link a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.link a:hover {
+  color: #007bff; /* Blue hover effect */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

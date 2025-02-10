@@ -1,0 +1,9 @@
+<body>
+  <form (submit)="onSubmit($event)">
+    <label for="pointage">Upload le fichier Excel de pointage d'aujourd'hui :</label><br><br>
+    <input type="file" id="pointage" (change)="onFileChange($event)" accept=".xlsx, .xls" required><br><br>
+    <button type="submit">Envoyer</button>
+  </form>
+</body>
+
+<app-table></app-table>

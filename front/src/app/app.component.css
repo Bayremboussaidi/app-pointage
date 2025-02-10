@@ -1,0 +1,32 @@
+.background-container {
+  width: 100%;
+  height: 100vh;
+  max-height: 1000vh;
+  background-image: url('../assets/background/back.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  transition: background-image 1s ease-in-out;
+}
+
+router-outlet {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 110%;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}

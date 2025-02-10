@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  background-color: rgba(255, 255, 255, 0.65); /* Light gray background for contrast */
+}
+
+form {
+  width: 400px; /* Fixed width for the form */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.6); /* White with 60% opacity */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for better aesthetics */
+  text-align: center; /* Center content inside the form */
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+input[type="file"] {
+  margin: 15px 0;
+  width: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Blue button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
