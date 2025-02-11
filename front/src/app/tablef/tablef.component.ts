@@ -11,8 +11,8 @@ import * as FileSaver from 'file-saver';
 })
 export class TablefComponent implements OnInit {
   records: Record[] = [];
-  personnelSummary: { id: string; name: string; totalHours: string }[] = []; // ✅ Changed 'idd' → 'id'
-  id: string = '';  // ✅ Changed 'idd' → 'id'
+  personnelSummary: { id: string; name: string; totalHours: string }[] = [];
+  id: string = '';
   date1: string = '';
   date2: string = '';
   errorMessage: string = '';
@@ -50,19 +50,19 @@ export class TablefComponent implements OnInit {
     };
 
     if (!this.id.trim()) {
-        // ✅ Fetch all personnel records
+        //  Fetch all personnel records
         this.filterService.fetchAllRecords(requestPayload).subscribe(
             (response) => {
                 if (response && response.records.length > 0) {
                     this.records = response.records.map((record: any) => ({
-                        id: record.idd,  // ✅ Fix: Convert 'idd' to 'id'
+                        id: record.idd,
                         prenom: record.prenom,
                         inTime: record.inTime,
                         outTime: record.outTime
                     }));
 
                     this.errorMessage = '';
-                    this.generatePersonnelSummary(); // ✅ Regenerate summary
+                    this.generatePersonnelSummary();
                 } else {
                     this.records = [];
                     this.personnelSummary = [];
@@ -75,12 +75,12 @@ export class TablefComponent implements OnInit {
             }
         );
     } else {
-        // ✅ Fetch specific personnel records
+        //  Fetch specific personnel records
         this.filterService.fetchRecords(requestPayload).subscribe(
             (response) => {
                 if (response && response.length > 0) {
                     this.records = response.map((record: any) => ({
-                        id: record.idd,  // ✅ Fix: Convert 'idd' to 'id'
+                        id: record.idd,
                         prenom: record.prenom,
                         inTime: record.inTime,
                         outTime: record.outTime
@@ -104,13 +104,13 @@ export class TablefComponent implements OnInit {
 
 
 
-  // ✅ Generate total hours per personnel (only for fetchAll)
+  //  Generate total hours per personnel (only for fetchAll)
   generatePersonnelSummary() {
     const summaryMap = new Map<string, { name: string; totalHours: number }>();
 
     this.records.forEach((record) => {
-      const personnelId = record.id;  // ✅ Changed 'idd' → 'id'
-      const personnelName = record.prenom; // ✅ Get name from records
+      const personnelId = record.id;  //  Changed 'idd' → 'id'
+      const personnelName = record.prenom; //  Get name from records
       const hoursWorked = parseFloat(this.calculateHoursWorked(record.inTime, record.outTime).replace(' hrs', ''));
 
       if (!isNaN(hoursWorked)) {
@@ -121,11 +121,11 @@ export class TablefComponent implements OnInit {
       }
     });
 
-    // ✅ Convert Map to array with name & total hours
+
     this.personnelSummary = Array.from(summaryMap, ([id, data]) => ({
       id,
-      name: data.name, // ✅ Include name
-      totalHours: data.totalHours.toFixed(2) // Format to 2 decimal places
+      name: data.name, //  Include name
+      totalHours: data.totalHours.toFixed(2)
     }));
   }
 

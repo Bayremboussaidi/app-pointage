@@ -15,7 +15,7 @@
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>  <!-- Changed from WAR to JAR if deploying standalone -->
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -24,23 +24,10 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Starter Web (Exclude Embedded Tomcat) -->
+        <!-- Spring Boot Starter Web (Using Embedded Server by Default) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Tomcat for Deployment (Provided Scope) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Boot Starter Data JPA -->
@@ -103,7 +90,6 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <!--version>3.2.0</!version-->
         </dependency>
 
         <!-- Spring Boot Starter Test -->

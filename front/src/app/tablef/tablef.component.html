@@ -44,12 +44,12 @@
     </ng-template>
   </p-table>
 
-   <!-- ✅ Total Hours Worked -->
+   <!--  Total Hours Worked -->
    <div *ngIf="records.length > 0" class="total-hours-box">
     <strong>Total Hours Worked: </strong> {{ getTotalHoursWorked() }} hrs
   </div>
 
-  <!-- ✅ Summary Table (Total Hours Worked per Personnel) -->
+  <!-- Summary Table (Total Hours Worked per Personnel) -->
   <div *ngIf="personnelSummary.length > 0" class="summary-table-container">
     <h3>Total Hours Worked per Personnel</h3>
     <p-table [value]="personnelSummary" [paginator]="true" [rows]="5" [responsiveLayout]="'scroll'">
@@ -62,7 +62,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-summary>
         <tr>
-          <td>{{ summary.id }}</td>  <!-- ✅ Changed 'idd' → 'id' -->
+          <td>{{ summary.id }}</td>
           <td>{{ summary.name }}</td>
           <td>{{ summary.totalHours }} hrs</td>
         </tr>

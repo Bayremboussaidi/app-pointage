@@ -17,7 +17,7 @@ export class TableComponent implements OnInit {
   isAddModalOpen = false;
 
   newRecord: InsertedRecord = {
-    id: '',  // ✅ Changed from `nombreDuPersonnel`
+    id: '',
     prenom: '',
     inTime: '',
     outTime: '',
@@ -46,13 +46,13 @@ export class TableComponent implements OnInit {
     });
   }
 
-  // ✅ Delete function
+
   deleteRecord(record: InsertedRecord, index: number): void {
     if (!confirm('Are you sure you want to delete this record?')) return;
 
     this.uploadService.deletePersonnelRecord(record.id).subscribe({
       next: () => {
-        this.insertedRecords.splice(index, 1); // ✅ Remove from UI
+        this.insertedRecords.splice(index, 1);
       },
       error: (error) => {
         console.error('❌ Error deleting record:', error);
@@ -86,12 +86,12 @@ export class TableComponent implements OnInit {
     console.log('🗑 Deleting record:', record);
   }
 
-  // ✅ Open the Add Record modal
+  //  Open the Add Record modal
   openAddModal() {
     this.isAddModalOpen = true;
   }
 
-  // ✅ Close the Add Record modal
+  //  Close the Add Record modal
   closeAddModal() {
     this.isAddModalOpen = false;
     this.newRecord = {
@@ -102,14 +102,14 @@ export class TableComponent implements OnInit {
     };
   }
 
-  // ✅ Handle form submission (Add new record)
+  //  Handle form submission (Add new record)
   onAdd() {
     if (!this.newRecord.id || !this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
       this.errors.push('⚠ Please fill all fields.');
       return;
     }
 
-    // ✅ Convert date fields before sending
+    //  Convert date fields before sending
     const formattedRecord = {
       ...this.newRecord,
       inTime: this.formatDate(this.newRecord.inTime),
@@ -118,9 +118,9 @@ export class TableComponent implements OnInit {
 
     this.uploadService.addRecord(formattedRecord).subscribe({
       next: (response) => {
-        console.log('✅ Record added successfully:', response);
+        console.log('Record added successfully:', response);
         this.closeAddModal();
-        this.fetchData(); // ✅ Refresh data after adding
+        this.fetchData(); //  Refresh data after adding
       },
       error: (error) => {
         console.error('❌ Error adding record:', error);
@@ -129,7 +129,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-  // ✅ Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
+  //  Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
   formatDate(date: string): string {
     if (!date) return '';
 
@@ -139,10 +139,10 @@ export class TableComponent implements OnInit {
       return '';
     }
 
-    return parsedDate.toISOString().slice(0, 19); // ✅ Ensures correct format
+    return parsedDate.toISOString().slice(0, 19); //  Ensures correct format
   }
 
-  // ✅ Handle CSV file input
+  // Handle CSV file input
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files ? input.files[0] : null;
