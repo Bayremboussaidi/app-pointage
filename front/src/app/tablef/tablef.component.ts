@@ -39,57 +39,70 @@ export class TablefComponent implements OnInit {
 
   fetchRecords() {
     if (!this.date1 || !this.date2) {
-      this.errorMessage = 'Please fill in all fields.';
-      return;
+        this.errorMessage = 'Please fill in all fields.';
+        return;
     }
 
     const requestPayload = {
-      id: this.id.trim(),  // ✅ Changed 'idd' → 'id'
-      date1: new Date(this.date1).toISOString(),
-      date2: new Date(this.date2).toISOString()
+        id: this.id.trim(),
+        date1: new Date(this.date1).toISOString(),
+        date2: new Date(this.date2).toISOString()
     };
 
     if (!this.id.trim()) {
-      // ✅ Fetch all personnel records
-      this.filterService.fetchAllRecords(requestPayload).subscribe(
-        (response) => {
-          if (response && response.records.length > 0) {
-            this.records = response.records;
-            this.errorMessage = '';
+        // ✅ Fetch all personnel records
+        this.filterService.fetchAllRecords(requestPayload).subscribe(
+            (response) => {
+                if (response && response.records.length > 0) {
+                    this.records = response.records.map((record: any) => ({
+                        id: record.idd,  // ✅ Fix: Convert 'idd' to 'id'
+                        prenom: record.prenom,
+                        inTime: record.inTime,
+                        outTime: record.outTime
+                    }));
 
-            // ✅ Generate summary table for total hours per personnel
-            this.generatePersonnelSummary();
-          } else {
-            this.records = [];
-            this.personnelSummary = [];
-            this.errorMessage = 'No records found.';
-          }
-        },
-        (error) => {
-          console.error('Error fetching records:', error);
-          this.errorMessage = 'An error occurred while fetching records.';
-        }
-      );
+                    this.errorMessage = '';
+                    this.generatePersonnelSummary(); // ✅ Regenerate summary
+                } else {
+                    this.records = [];
+                    this.personnelSummary = [];
+                    this.errorMessage = 'No records found.';
+                }
+            },
+            (error) => {
+                console.error('Error fetching records:', error);
+                this.errorMessage = 'An error occurred while fetching records.';
+            }
+        );
     } else {
-      // ✅ Fetch specific personnel records
-      this.filterService.fetchRecords(requestPayload).subscribe(
-        (response) => {
-          if (response && response.length > 0) {
-            this.records = response;
-            this.personnelSummary = []; // ✅ Clear summary table for single personnel search
-            this.errorMessage = '';
-          } else {
-            this.records = [];
-            this.errorMessage = 'No records found.';
-          }
-        },
-        (error) => {
-          console.error('Error fetching records:', error);
-          this.errorMessage = 'An error occurred while fetching records.';
-        }
-      );
+        // ✅ Fetch specific personnel records
+        this.filterService.fetchRecords(requestPayload).subscribe(
+            (response) => {
+                if (response && response.length > 0) {
+                    this.records = response.map((record: any) => ({
+                        id: record.idd,  // ✅ Fix: Convert 'idd' to 'id'
+                        prenom: record.prenom,
+                        inTime: record.inTime,
+                        outTime: record.outTime
+                    }));
+
+                    this.personnelSummary = [];
+                    this.errorMessage = '';
+                } else {
+                    this.records = [];
+                    this.errorMessage = 'No records found.';
+                }
+            },
+            (error) => {
+                console.error('Error fetching records:', error);
+                this.errorMessage = 'An error occurred while fetching records.';
+            }
+        );
     }
-  }
+}
+
+
+
 
   // ✅ Generate total hours per personnel (only for fetchAll)
   generatePersonnelSummary() {
@@ -141,9 +154,3 @@ export class TablefComponent implements OnInit {
     FileSaver.saveAs(data, 'exported_records.xlsx');
   }
 }
-
-
-
-
-
-
