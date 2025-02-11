@@ -10,20 +10,20 @@ import { Record } from '../models/record.model';
 export class FilterComponent {
   dateStart: string = '';
   dateEnd: string = '';
-  personnelNumber: number | null = null;
+  id: string = ''; // ✅ Changed from personnelNumber to id
   filteredRecords: Record[] = [];
-  errorMessage: string = ''; // ✅ Added error message handling
+  errorMessage: string = ''; // ✅ Error message handling
 
   constructor(private filterService: FilterService) {}
 
   filterRecords() {
-    if (!this.dateStart || !this.dateEnd || this.personnelNumber === null) {
+    if (!this.dateStart || !this.dateEnd || !this.id.trim()) {
       this.errorMessage = 'Please fill all fields before filtering.';
       return;
     }
 
     const requestPayload = {
-      personnel: this.personnelNumber,
+      id: this.id, // ✅ Using `id` instead of `personnelNumber`
       date1: new Date(this.dateStart).toISOString(), // ✅ Convert to ISO format
       date2: new Date(this.dateEnd).toISOString()
     };
@@ -35,7 +35,7 @@ export class FilterComponent {
         console.log("✅ Response Received:", response);
 
         if (response.length > 0) {
-          this.filteredRecords = response; // ✅ Directly store response (no `.records`)
+          this.filteredRecords = response; // ✅ Store response
           this.errorMessage = ''; // ✅ Clear error if successful
         } else {
           this.filteredRecords = [];

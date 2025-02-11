@@ -11,7 +11,7 @@
   <table class="p-table" *ngIf="insertedRecords.length > 0">
     <thead>
       <tr>
-        <th>Personnel Number</th>
+        <th>ID</th>
         <th>Name</th>
         <th>In Time</th>
         <th>Out Time</th>
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let record of insertedRecords; let i = index">
-        <td>{{ record.nombreDuPersonnel }}</td>
+        <td>{{ record.id }}</td>
         <td>{{ record.prenom }}</td>
         <td>{{ record.inTime }}</td>
         <td>{{ record.outTime }}</td>
@@ -34,57 +34,42 @@
   <p *ngIf="insertedRecords.length === 0">No records available.</p>
 
   <div *ngIf="errors.length > 0">
-    <h3>Erreurs:</h3>
+    <h3>Errors:</h3>
     <ul>
       <li *ngFor="let error of errors">{{ error }}</li>
     </ul>
   </div>
 
+  <div *ngIf="isAddModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Add New Record</h3>
 
+      <form (ngSubmit)="onAdd()">
+        <div class="modal-field">
+          <label for="idd">ID:</label>
+          <input id="idd" type="text" [(ngModel)]="newRecord.id" name="idd" required>
+        </div>
 
+        <div class="modal-field">
+          <label for="prenom">Name:</label>
+          <input id="prenom" type="text" [(ngModel)]="newRecord.prenom" name="prenom" required>
+        </div>
 
-<div *ngIf="isAddModalOpen" class="modal-overlay">
-  <div class="modal-content">
-    <h3>Add New Record</h3>
+        <div class="modal-field">
+          <label for="inTime">In Time:</label>
+          <input id="inTime" type="datetime-local" [(ngModel)]="newRecord.inTime" name="inTime" required>
+        </div>
 
+        <div class="modal-field">
+          <label for="outTime">Out Time:</label>
+          <input id="outTime" type="datetime-local" [(ngModel)]="newRecord.outTime" name="outTime" required>
+        </div>
 
-
-
-
-<div *ngIf="isAddModalOpen" class="modal-overlay">
-  <div class="modal-content">
-    <h3>Add New Record</h3>
-
-    <form (ngSubmit)="onAdd()">
-      <div class="modal-field">
-        <label for="nombreDuPersonnel">Personnel Number:</label>
-        <input id="nombreDuPersonnel" type="number" [(ngModel)]="newRecord.nombreDuPersonnel" name="nombreDuPersonnel" required>
-      </div>
-
-      <div class="modal-field">
-        <label for="prenom">Name:</label>
-        <input id="prenom" type="text" [(ngModel)]="newRecord.prenom" name="prenom" required>
-      </div>
-
-      <div class="modal-field">
-        <label for="inTime">In Time:</label>
-        <input id="inTime" type="datetime-local" [(ngModel)]="newRecord.inTime" name="inTime" required>
-      </div>
-
-      <div class="modal-field">
-        <label for="outTime">Out Time:</label>
-        <input id="outTime" type="datetime-local" [(ngModel)]="newRecord.outTime" name="outTime" required>
-      </div>
-
-      <div class="modal-buttons">
-        <button type="submit" class="confirm-button">Add</button>
-        <button type="button" class="cancel-button" (click)="closeAddModal()">Cancel</button>
-      </div>
-    </form>
+        <div class="modal-buttons">
+          <button type="submit" class="confirm-button">Add</button>
+          <button type="button" class="cancel-button" (click)="closeAddModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-
-  </div>
-</div>
-
 </div>

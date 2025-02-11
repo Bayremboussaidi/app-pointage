@@ -1,5 +1,5 @@
 export interface Record {
-  nombreDuPersonnel: number;
+  id: string;
   prenom: string;
   inTime: string;
   outTime: string;

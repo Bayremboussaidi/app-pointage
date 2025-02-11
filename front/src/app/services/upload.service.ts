@@ -5,20 +5,10 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { InsertedRecord, UploadResponse } from '../models/upload-response.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
-  storeParsedData(data: InsertedRecord[]): void {
-    const updatedResponse: UploadResponse = { insertedRecords: data, errors: [] };
-    this.responseSubject.next(updatedResponse); // ✅ Update response
-  }
-
-
-
-
-
   private apiUrl = 'http://localhost:8080/api/excel';
 
   // Store the response to make it available to other components
@@ -43,6 +33,20 @@ export class UploadService {
     return this.responseSubject.asObservable();
   }
 
+  storeParsedData(data: InsertedRecord[]): void {
+    const updatedResponse: UploadResponse = { insertedRecords: data, errors: [] };
+    this.responseSubject.next(updatedResponse); // ✅ Update response
+  }
+
+  addRecord(record: Record): Observable<Record> {
+    return this.http.post<Record>(`http://localhost:8080/api/records/add`, record);
+  }
+
+  deletePersonnelRecord(id: string): Observable<string> { // ✅ Changed to string
+    const url = `http://localhost:8080/api/records/delete/${id}`;
+    return this.http.delete<string>(url, { responseType: 'text' as 'json' });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<UploadResponse> {
     console.error("Erreur d'upload:", error);
     return throwError(() => ({
@@ -50,21 +54,4 @@ export class UploadService {
       errors: ['Une erreur est survenue lors du téléchargement du fichier.']
     }));
   }
-
-
-
-  addRecord(record :Record): Observable<Record> {
-    return this.http.post<Record>(`http://localhost:8080/api/records/add`, record);
-  }
-
-
-
-
-  deletePersonnelRecord(personnelNumber: number): Observable<string> {
-    const url = `http://localhost:8080/api/records/delete/${personnelNumber}`;
-    return this.http.delete<string>(url, { responseType: 'text' as 'json' });
-  }
-
-
-
 }

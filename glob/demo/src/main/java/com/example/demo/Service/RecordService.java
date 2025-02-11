@@ -2,11 +2,7 @@ package com.example.demo.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,40 +20,39 @@ public class RecordService {
 
     public List<Record> saveRecords(ArrayList<Map<String, String>> records, List<String> errorMessages) {
         List<Record> recordsToInsert = new ArrayList<>();
-        Map<Integer, List<LocalDateTime>> inRecordsMap = new HashMap<>();
-        Map<Integer, List<LocalDateTime>> outRecordsMap = new HashMap<>();
-        Map<Integer, String> prénomMap = new HashMap<>();
+        Map<String, List<LocalDateTime>> inRecordsMap = new HashMap<>();
+        Map<String, List<LocalDateTime>> outRecordsMap = new HashMap<>();
+        Map<String, String> prénomMap = new HashMap<>();
 
         // Step 1: Categorize records into separate In and Out lists
         for (Map<String, String> record : records) {
             try {
-                String personnelStr = record.get("Nombre du personnel");
+                String id = record.get("id"); // Using "id" instead of "Nombre du personnel"
                 String status = record.get("In / Out Status");
                 String timeStr = record.get("Time");
                 String prénom = record.get("Prénom");
 
-                if (personnelStr == null || personnelStr.isEmpty()) {
-                    errorMessages.add("Error: Missing 'Nombre du personnel' for Prénom: " + prénom);
+                if (id == null || id.isEmpty()) {
+                    errorMessages.add("Error: Missing 'id' for Prénom: " + prénom);
                     continue;
                 }
 
-                int personnel = Integer.parseInt(personnelStr);
                 LocalDateTime time = (timeStr != null && !timeStr.isEmpty()) ?
                         LocalDateTime.parse(timeStr, DATE_TIME_FORMATTER) : null;
 
                 if (time == null) {
-                    errorMessages.add("Error: Missing 'Time' for Personnel ID: " + personnel + ", Prénom: " + prénom);
+                    errorMessages.add("Error: Missing 'Time' for ID: " + id + ", Prénom: " + prénom);
                     continue;
                 }
 
                 if (prénom != null && !prénom.isEmpty()) {
-                    prénomMap.putIfAbsent(personnel, prénom);
+                    prénomMap.putIfAbsent(id, prénom);
                 }
 
                 if ("Check-In".equalsIgnoreCase(status) || "OT-In".equalsIgnoreCase(status)) {
-                    inRecordsMap.computeIfAbsent(personnel, k -> new ArrayList<>()).add(time);
+                    inRecordsMap.computeIfAbsent(id, k -> new ArrayList<>()).add(time);
                 } else if ("Check-Out".equalsIgnoreCase(status) || "OT-Out".equalsIgnoreCase(status)) {
-                    outRecordsMap.computeIfAbsent(personnel, k -> new ArrayList<>()).add(time);
+                    outRecordsMap.computeIfAbsent(id, k -> new ArrayList<>()).add(time);
                 }
             } catch (Exception e) {
                 errorMessages.add("Error: Invalid data format - " + e.getMessage());
@@ -65,10 +60,10 @@ public class RecordService {
         }
 
         // Step 2: Match "In" times with the next valid "Out"
-        for (Map.Entry<Integer, List<LocalDateTime>> entry : inRecordsMap.entrySet()) {
-            int personnel = entry.getKey();
+        for (Map.Entry<String, List<LocalDateTime>> entry : inRecordsMap.entrySet()) {
+            String id = entry.getKey();
             List<LocalDateTime> inTimes = entry.getValue();
-            List<LocalDateTime> outTimes = outRecordsMap.getOrDefault(personnel, new ArrayList<>());
+            List<LocalDateTime> outTimes = outRecordsMap.getOrDefault(id, new ArrayList<>());
 
             Collections.sort(inTimes);
             Collections.sort(outTimes);
@@ -102,15 +97,15 @@ public class RecordService {
 
                 if (validOutTime != null) {
                     Record newRecord = new Record();
-                    newRecord.setNombreDuPersonnel(personnel);
+                    newRecord.setIdd(id); // Using setIdd instead of setNombreDuPersonnel
                     newRecord.setInTime(inTime);
                     newRecord.setOutTime(validOutTime);
-                    newRecord.setPrenom(prénomMap.get(personnel));
+                    newRecord.setPrenom(prénomMap.get(id));
 
                     recordsToInsert.add(newRecord);
                 } else {
                     errorMessages.add("Warning: No valid 'Out' record found for In-Time: " + inTime +
-                            " for Personnel ID: " + personnel + ", Prénom: " + prénomMap.get(personnel));
+                            " for ID: " + id + ", Prénom: " + prénomMap.get(id));
                 }
             }
         }
@@ -122,8 +117,8 @@ public class RecordService {
         return recordsToInsert;
     }
 
-    public List<Record> getRecordsBetweenDates(int personnelId, LocalDateTime date1, LocalDateTime date2) {
-        return recordRepository.findByPersonnelAndDateRange(personnelId, date1, date2);
+    public List<Record> getRecordsBetweenDates(String id, LocalDateTime date1, LocalDateTime date2) {
+        return recordRepository.findByIdAndDateRange(id, date1, date2); // Updated query method to use id
     }
 
     public List<Record> getAllRecordsBetweenDates(LocalDateTime date1, LocalDateTime date2) {

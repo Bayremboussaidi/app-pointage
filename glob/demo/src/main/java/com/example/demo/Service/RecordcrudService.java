@@ -29,16 +29,16 @@ public class RecordcrudService {
         return recordRepository.findAll();
     }
 
-    // ✅ Get a record by ID
-    public Optional<Record> getRecordById(Long id) {
-        return recordRepository.findById(id);
+    // ✅ Get a record by ID (Updated to use String id)
+    public Optional<Record> getRecordById(String id) {
+        return recordRepository.findByIdd(id);
     }
 
-    // ✅ Update an existing record
-    public Record updateRecord(Long id, Record updatedRecord) {
-        return recordRepository.findById(id)
+    // ✅ Update an existing record (Uses String id instead of Long)
+    public Record updateRecord(String id, Record updatedRecord) {
+        return recordRepository.findByIdd(id)
                 .map(record -> {
-                    record.setNombreDuPersonnel(updatedRecord.getNombreDuPersonnel());
+                    record.setIdd(updatedRecord.getIdd()); // Changed from setNombreDuPersonnel
                     record.setPrenom(updatedRecord.getPrenom());
                     record.setInTime(updatedRecord.getInTime());
                     record.setOutTime(updatedRecord.getOutTime());
@@ -47,14 +47,12 @@ public class RecordcrudService {
                 .orElseThrow(() -> new RuntimeException("Record not found with ID: " + id));
     }
 
-    
-    //  Delete a record by ID
+    // ✅ Delete a record by ID (Updated from Personnel Number to ID)
     @Transactional
-    public void deleteRecordByPersonnelNumber(Long personnelNumber) {
-        if (!recordRepository.existsByNombreDuPersonnel(personnelNumber)) {
-            throw new RuntimeException("Record not found with Personnel Number: " + personnelNumber);
+    public void deleteRecordById(String id) {
+        if (!recordRepository.existsByIdd(id)) {
+            throw new RuntimeException("Record not found with ID: " + id);
         }
-        recordRepository.deleteByNombreDuPersonnel(personnelNumber);
+        recordRepository.deleteByIdd(id);
     }
-    
 }

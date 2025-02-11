@@ -53,9 +53,7 @@ public class ExcelSortingController {
         }
 
         try {
-            
             List<Map<String, String>> records = extractRecordsFromExcel(file, errorMessages);
-
             ArrayList<Map<String, String>> sortedRecords = sortingService.sortRecords(new ArrayList<>(records));
 
             List<Record> insertedRecords = recordService.saveRecords(sortedRecords, errorMessages);
@@ -97,8 +95,8 @@ public class ExcelSortingController {
                     case "time":
                         columnIndex.put("Time", cell.getColumnIndex());
                         break;
-                    case "nombre du personnel":
-                        columnIndex.put("Nombre du personnel", cell.getColumnIndex());
+                    case "id":
+                        columnIndex.put("id", cell.getColumnIndex()); // Replacing "Nombre du personnel" with "id"
                         break;
                     case "in / out status":
                         columnIndex.put("In / Out Status", cell.getColumnIndex());
@@ -109,7 +107,6 @@ public class ExcelSortingController {
                 }
             }
 
-            
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
@@ -135,14 +132,14 @@ public class ExcelSortingController {
                     record.put(key, value);
                 }
 
-                
-                if (!record.containsKey("Nombre du personnel") || record.get("Nombre du personnel").isEmpty()) {
-                    errorMessages.add("Missing 'Nombre du personnel' at row " + (i + 1));
+                // Ensure "id" is present instead of "Nombre du personnel"
+                if (!record.containsKey("id") || record.get("id").isEmpty()) {
+                    errorMessages.add("Missing 'id' at row " + (i + 1));
                     continue;
                 }
 
                 if (!record.containsKey("In / Out Status") || record.get("In / Out Status").isEmpty() ||
-                    !record.containsKey("Time") || record.get("Time").isEmpty()) {
+                        !record.containsKey("Time") || record.get("Time").isEmpty()) {
                     errorMessages.add("Missing 'In / Out Status' or 'Time' at row " + (i + 1));
                     continue;
                 }

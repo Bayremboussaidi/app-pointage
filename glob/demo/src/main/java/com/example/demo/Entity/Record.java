@@ -9,19 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
-
 @Entity
-
 @Table(name = "pointage")
 public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;  // Primary key
 
-    @Column(name = "nombre_du_personnel")
-    private int nombreDuPersonnel;
+    @Column(name = "idd")  // Changed column name to avoid conflict
+    private String idd;  // The new ID field replacing "Nombre du personnel"
 
     @Column(name = "prenom")
     private String prenom;
@@ -32,38 +29,38 @@ public class Record {
     @Column(name = "out_time")
     private LocalDateTime outTime;
 
-
-
-
-
-    public int getNombreDuPersonnel() {
-        return nombreDuPersonnel;
+    // Getter and Setter for idd (Replaces "Nombre du personnel")
+    public String getIdd() {
+        return idd;
     }
-    
-    public void setNombreDuPersonnel(int nombreDuPersonnel) {
-        this.nombreDuPersonnel = nombreDuPersonnel;
+
+    public void setIdd(String idd) {
+        this.idd = idd;
     }
-    
+
+    // Getter and Setter for Prénom
     public String getPrenom() {
         return prenom;
     }
-    
+
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-    
+
+    // Getter and Setter for inTime
     public LocalDateTime getInTime() {
         return inTime;
     }
-    
-    public void setInTime(LocalDateTime inTime2) {
-        this.inTime = inTime2;
+
+    public void setInTime(LocalDateTime inTime) {
+        this.inTime = inTime;
     }
-    
+
+    // Getter and Setter for outTime
     public LocalDateTime getOutTime() {
         return outTime;
     }
-    
+
     public void setOutTime(LocalDateTime outTime) {
         this.outTime = outTime;
     }

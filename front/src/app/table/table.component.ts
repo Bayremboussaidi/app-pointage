@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../services/upload.service';
 import { InsertedRecord } from '../models/upload-response.model';
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import * as Papa from 'papaparse';
 
 @Component({
@@ -17,7 +17,7 @@ export class TableComponent implements OnInit {
   isAddModalOpen = false;
 
   newRecord: InsertedRecord = {
-    nombreDuPersonnel: 1,
+    id: '',  // ✅ Changed from `nombreDuPersonnel`
     prenom: '',
     inTime: '',
     outTime: '',
@@ -32,24 +32,30 @@ export class TableComponent implements OnInit {
   fetchData() {
     this.uploadService.getStoredResponse().subscribe({
       next: (response) => {
-        this.insertedRecords = response.insertedRecords;
-        this.errors = response.errors;
+        if (response?.insertedRecords) {
+          this.insertedRecords = response.insertedRecords;
+        } else {
+          this.insertedRecords = [];
+        }
+        this.errors = response?.errors || [];
       },
       error: (err) => {
-        console.error("Erreur de récupération des données:", err);
+        console.error("❌ Error fetching data:", err);
+        this.errors.push("Failed to fetch data.");
       }
     });
   }
 
-  // Delete function
-  deleteRecord(record: any, index: number): void {
+  // ✅ Delete function
+  deleteRecord(record: InsertedRecord, index: number): void {
     if (!confirm('Are you sure you want to delete this record?')) return;
 
-    this.uploadService.deletePersonnelRecord(record.nombreDuPersonnel).subscribe({
+    this.uploadService.deletePersonnelRecord(record.id).subscribe({
       next: () => {
-        this.insertedRecords.splice(index, 1); // Remove from UI
+        this.insertedRecords.splice(index, 1); // ✅ Remove from UI
       },
       error: (error) => {
+        console.error('❌ Error deleting record:', error);
         this.errors.push(`Failed to delete record: ${error.message}`);
       }
     });
@@ -57,109 +63,101 @@ export class TableComponent implements OnInit {
 
   exportCSV() {
     if (this.insertedRecords.length === 0) {
-      console.warn("No data to export.");
+      console.warn("⚠ No data to export.");
       return;
     }
 
     const csvData = Papa.unparse(this.insertedRecords);
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-
     const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'exported_records.csv');
-    link.style.visibility = 'hidden';
 
-    document.body.appendChild(link);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'exported_records.csv';
     link.click();
-    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
-  onUpdate(record: any) {
-    console.log('Update record:', record);
+  onUpdate(record: InsertedRecord) {
+    console.log('🔄 Updating record:', record);
   }
 
-  onDelete(record: any) {
-    console.log('Delete record:', record);
+  onDelete(record: InsertedRecord) {
+    console.log('🗑 Deleting record:', record);
   }
 
-  // Open the Add Record modal
+  // ✅ Open the Add Record modal
   openAddModal() {
     this.isAddModalOpen = true;
   }
 
-  // Close the Add Record modal
+  // ✅ Close the Add Record modal
   closeAddModal() {
     this.isAddModalOpen = false;
     this.newRecord = {
-      nombreDuPersonnel: 1,
+      id: '',
       prenom: '',
       inTime: '',
       outTime: '',
     };
   }
 
-  // Handle form submission (Add new record)
+  // ✅ Handle form submission (Add new record)
   onAdd() {
-    if (!this.newRecord.nombreDuPersonnel || !this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
-      this.errors.push('Please fill all fields.');
+    if (!this.newRecord.id || !this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
+      this.errors.push('⚠ Please fill all fields.');
       return;
     }
 
-    // Convert date fields before sending
+    // ✅ Convert date fields before sending
     const formattedRecord = {
       ...this.newRecord,
       inTime: this.formatDate(this.newRecord.inTime),
       outTime: this.formatDate(this.newRecord.outTime),
     };
 
-    this.uploadService.addRecord(formattedRecord).subscribe(
-      (response: any) => {
-        console.log('Record added successfully:', response);
+    this.uploadService.addRecord(formattedRecord).subscribe({
+      next: (response) => {
+        console.log('✅ Record added successfully:', response);
         this.closeAddModal();
-        this.fetchData(); // Refresh data after adding
+        this.fetchData(); // ✅ Refresh data after adding
       },
-      (error: any) => {
-        console.error('Error adding record:', error);
+      error: (error) => {
+        console.error('❌ Error adding record:', error);
         this.errors.push('Failed to add record.');
       }
-    );
+    });
   }
 
-  // Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
+  // ✅ Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
   formatDate(date: string): string {
     if (!date) return '';
 
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime())) {
-      console.error('Invalid date:', date);
+      console.error('⚠ Invalid date:', date);
       return '';
     }
 
-    const year = parsedDate.getFullYear();
-    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
-    const day = String(parsedDate.getDate()).padStart(2, '0');
-    const hours = String(parsedDate.getHours()).padStart(2, '0');
-    const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
-    const seconds = String(parsedDate.getSeconds()).padStart(2, '0');
-
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    return parsedDate.toISOString().slice(0, 19); // ✅ Ensures correct format
   }
 
-  handleFileInput(event: any) {
-    const file = event.target.files[0];
+  // ✅ Handle CSV file input
+  handleFileInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files ? input.files[0] : null;
 
     if (file) {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: (result: { data: any }) => {
-          console.log('Parsed CSV Data:', result.data);
+        complete: (result: { data: any[] }) => {
+          console.log('📥 Parsed CSV Data:', result.data);
           this.insertedRecords = result.data;
           this.uploadService.storeParsedData(result.data);
         },
         error: (err) => {
-          console.error('Error parsing CSV:', err);
+          console.error('❌ Error parsing CSV:', err);
         }
       });
     }
