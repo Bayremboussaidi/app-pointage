@@ -18,7 +18,7 @@ services:
     networks:
       - my-network
 
-  # Spring Boot Backend
+  # Backend
   backend:
     build:
       context: ./glob/demo
@@ -40,7 +40,7 @@ services:
     networks:
       - my-network
 
-  # Angular Frontend
+  #  Frontend
   frontend:
     build:
       context: ./front
