@@ -55,6 +55,7 @@ export class TablefComponent implements OnInit {
             (response) => {
                 if (response && response.records.length > 0) {
                     this.records = response.records.map((record: any) => ({
+                        idd: record.id,
                         id: record.idd,
                         prenom: record.prenom,
                         inTime: record.inTime,
@@ -80,6 +81,7 @@ export class TablefComponent implements OnInit {
             (response) => {
                 if (response && response.length > 0) {
                     this.records = response.map((record: any) => ({
+                        idd: record.id,
                         id: record.idd,
                         prenom: record.prenom,
                         inTime: record.inTime,
@@ -109,15 +111,15 @@ export class TablefComponent implements OnInit {
     const summaryMap = new Map<string, { name: string; totalHours: number }>();
 
     this.records.forEach((record) => {
-      const personnelId = record.id;  //  Changed 'idd' → 'id'
+      const personnelIdd = record.idd;  //  Changed 'idd' → 'id'
       const personnelName = record.prenom; //  Get name from records
       const hoursWorked = parseFloat(this.calculateHoursWorked(record.inTime, record.outTime).replace(' hrs', ''));
 
       if (!isNaN(hoursWorked)) {
-        if (!summaryMap.has(personnelId)) {
-          summaryMap.set(personnelId, { name: personnelName, totalHours: 0 });
+        if (!summaryMap.has(personnelIdd)) {
+          summaryMap.set(personnelIdd, { name: personnelName, totalHours: 0 });
         }
-        summaryMap.get(personnelId)!.totalHours += hoursWorked;
+        summaryMap.get(personnelIdd)!.totalHours += hoursWorked;
       }
     });
 

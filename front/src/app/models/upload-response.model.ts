@@ -1,5 +1,6 @@
 export interface InsertedRecord {
-  id: string;
+  idd:string,
+  id: number;
   prenom: string;
   inTime: string;
   outTime: string;

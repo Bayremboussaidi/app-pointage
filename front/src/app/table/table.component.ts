@@ -17,7 +17,8 @@ export class TableComponent implements OnInit {
   isAddModalOpen = false;
 
   newRecord: InsertedRecord = {
-    id: '',
+    id: 0,
+    idd: "",
     prenom: '',
     inTime: '',
     outTime: '',
@@ -95,7 +96,8 @@ export class TableComponent implements OnInit {
   closeAddModal() {
     this.isAddModalOpen = false;
     this.newRecord = {
-      id: '',
+      id: 0,
+      idd:"",
       prenom: '',
       inTime: '',
       outTime: '',
