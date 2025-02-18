@@ -35,8 +35,8 @@ public class RecordcrudService {
     }
 
     // ✅ Update an existing record (Uses String id instead of Long)
-    public Record updateRecord(String id, Record updatedRecord) {
-        return recordRepository.findByIdd(id)
+    public Record updateRecord(long id, Record updatedRecord) {
+        return recordRepository.findById(id)
                 .map(record -> {
                     record.setIdd(updatedRecord.getIdd()); // Changed from setNombreDuPersonnel
                     record.setPrenom(updatedRecord.getPrenom());
@@ -49,10 +49,10 @@ public class RecordcrudService {
 
     // ✅ Delete a record by ID (Updated from Personnel Number to ID)
     @Transactional
-    public void deleteRecordById(String id) {
-        if (!recordRepository.existsByIdd(id)) {
+    public void deleteRecordById(long id) {
+        if (!recordRepository.existsById(id)) {
             throw new RuntimeException("Record not found with ID: " + id);
         }
-        recordRepository.deleteByIdd(id);
+        recordRepository.deleteById(id);
     }
 }

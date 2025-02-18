@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Handle file selection
   onFileChange(event: any): void {
     this.selectedFile = event.target.files[0] || null;
     if (this.selectedFile) {
@@ -23,9 +22,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  // Handle form submission
   onSubmit(event: Event): void {
-    event.preventDefault(); // Prevents page refresh on submit
+    event.preventDefault();
     console.log("onSubmit() called!");
 
     if (!this.selectedFile) {

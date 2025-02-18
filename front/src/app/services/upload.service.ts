@@ -44,6 +44,7 @@ export class UploadService {
     return this.http.post<Record>(`http://localhost:8080/api/records/add`, record);
   }
 
+
   deletePersonnelRecord(idd: number): Observable<string> {
     const url = `http://localhost:8080/api/records/delete/${idd}`;
     return this.http.delete<string>(url, { responseType: 'text' as 'json' });

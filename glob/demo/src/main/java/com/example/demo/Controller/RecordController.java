@@ -24,23 +24,24 @@ public class RecordController {
         this.recordService = recordService;
     }
 
-    // ✅ Add a new record
+    // Add a new record
     @PostMapping("/add")
     public ResponseEntity<Record> addRecord(@RequestBody Record record) {
         Record savedRecord = recordService.addRecord(record);
         return ResponseEntity.ok(savedRecord);
     }
+    
 
-    // ✅ Update an existing record by ID (Changed from Long to String)
+    // Update an existing record by ID (Changed from Long to String)
     @PutMapping("/update/{id}")
-    public ResponseEntity<Record> updateRecord(@PathVariable String id, @RequestBody Record updatedRecord) {
+    public ResponseEntity<Record> updateRecord(@PathVariable long id, @RequestBody Record updatedRecord) {
         Record updated = recordService.updateRecord(id, updatedRecord);
         return ResponseEntity.ok(updated);
     }
 
-    // ✅ Delete a record by ID (Changed from personnelNumber to id)
+    // Delete a record by ID (Changed from personnelNumber to id)
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteRecord(@PathVariable String id) {
+    public ResponseEntity<String> deleteRecord(@PathVariable long id) {
         recordService.deleteRecordById(id);
         return ResponseEntity.ok("Record deleted successfully.");
     }

@@ -92,7 +92,8 @@ import { TablefComponent } from './tablef/tablef.component';
     KeyFilterModule,
     CalendarModule,
     TableModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   /*providers: [{
     provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true

@@ -41,7 +41,7 @@ export class TableComponent implements OnInit {
         this.errors = response?.errors || [];
       },
       error: (err) => {
-        console.error("❌ Error fetching data:", err);
+        console.error(" Error fetching data:", err);
         this.errors.push("Failed to fetch data.");
       }
     });
@@ -56,7 +56,7 @@ export class TableComponent implements OnInit {
         this.insertedRecords.splice(index, 1);
       },
       error: (error) => {
-        console.error('❌ Error deleting record:', error);
+        console.error(' Error deleting record:', error);
         this.errors.push(`Failed to delete record: ${error.message}`);
       }
     });
@@ -67,15 +67,13 @@ export class TableComponent implements OnInit {
 
 editingIndex: number | null = null; // Track which row is being edited
 
-// **Start Editing a Record**
 startEditing(index: number): void {
   this.editingIndex = index;
 }
 
-// **Confirm Update and Send Request**
 confirmUpdate(record: InsertedRecord, index: number): void {
   if (!record.idd) {
-    console.error('❌ Error: Record ID is required!');
+    console.error(' Error: Record ID is required!');
     return;
   }
 
@@ -110,19 +108,17 @@ confirmUpdate(record: InsertedRecord, index: number): void {
   }
 
   onUpdate(record: InsertedRecord) {
-    console.log('🔄 Updating record:', record);
+    console.log(' Updating record:', record);
   }
 
   onDelete(record: InsertedRecord) {
-    console.log('🗑 Deleting record:', record);
+    console.log(' Deleting record:', record);
   }
 
-  //  Open the Add Record modal
   openAddModal() {
     this.isAddModalOpen = true;
   }
 
-  //  Close the Add Record modal
   closeAddModal() {
     this.isAddModalOpen = false;
     this.newRecord = {
@@ -134,16 +130,15 @@ confirmUpdate(record: InsertedRecord, index: number): void {
     };
   }
 
-  //  Handle form submission (Add new record)
   onAdd() {
-    if (!this.newRecord.id || !this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
+    if (!this.newRecord.prenom || !this.newRecord.inTime || !this.newRecord.outTime) {
       this.errors.push('⚠ Please fill all fields.');
       return;
     }
 
-    //  Convert date fields before sending
     const formattedRecord = {
       ...this.newRecord,
+      id: null,
       inTime: this.formatDate(this.newRecord.inTime),
       outTime: this.formatDate(this.newRecord.outTime),
     };
@@ -152,29 +147,28 @@ confirmUpdate(record: InsertedRecord, index: number): void {
       next: (response) => {
         console.log('Record added successfully:', response);
         this.closeAddModal();
-        this.fetchData(); //  Refresh data after adding
+        this.fetchData(); // Refresh data after adding
       },
       error: (error) => {
-        console.error('❌ Error adding record:', error);
+        console.error(' Error adding record:', error);
         this.errors.push('Failed to add record.');
       }
     });
   }
 
-  //  Helper function to format date as 'YYYY-MM-DDTHH:mm:ss'
+
   formatDate(date: string): string {
     if (!date) return '';
 
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime())) {
-      console.error('⚠ Invalid date:', date);
+      console.error(' Invalid date:', date);
       return '';
     }
 
-    return parsedDate.toISOString().slice(0, 19); //  Ensures correct format
+    return parsedDate.toISOString().slice(0, 19);
   }
 
-  // Handle CSV file input
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files ? input.files[0] : null;
@@ -184,12 +178,12 @@ confirmUpdate(record: InsertedRecord, index: number): void {
         header: true,
         skipEmptyLines: true,
         complete: (result: { data: any[] }) => {
-          console.log('📥 Parsed CSV Data:', result.data);
+          console.log(' Parsed CSV Data:', result.data);
           this.insertedRecords = result.data;
           this.uploadService.storeParsedData(result.data);
         },
         error: (err) => {
-          console.error('❌ Error parsing CSV:', err);
+          console.error(' Error parsing CSV:', err);
         }
       });
     }

@@ -12,9 +12,9 @@ export class FilterService {
 
   constructor(private http: HttpClient) {}
 
-  fetchRecords(requestPayload: any): Observable<Record[]> { //  Expecting an array
+  fetchRecords(requestPayload: any): Observable<Record[]> {
     console.log(" Sending request to:", this.apiUrl, "with payload:", requestPayload);
-    return this.http.post<Record[]>(this.apiUrl, requestPayload); //  Expect response as an array
+    return this.http.post<Record[]>(this.apiUrl, requestPayload);
   }
 
   setRecords(records: Record[]) {

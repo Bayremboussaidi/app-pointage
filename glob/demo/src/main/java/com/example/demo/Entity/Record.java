@@ -38,6 +38,15 @@ public class Record {
         this.idd = idd;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     // Getter and Setter for Prénom
     public String getPrenom() {
         return prenom;
