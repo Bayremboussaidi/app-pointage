@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { InsertedRecord, UploadResponse } from '../models/upload-response.model';
+import { HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +48,17 @@ export class UploadService {
     const url = `http://localhost:8080/api/records/delete/${idd}`;
     return this.http.delete<string>(url, { responseType: 'text' as 'json' });
   }
+
+
+  //update
+  updateRecord(id: number, updatedRecord: Record): Observable<Record> {
+    const url = `http://localhost:8080/api/records/update/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Record>(url, updatedRecord, { headers });
+  }
+
+
 
   private handleError(error: HttpErrorResponse): Observable<UploadResponse> {
     console.error("Erreur d'upload:", error);

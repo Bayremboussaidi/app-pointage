@@ -1,5 +1,5 @@
 export interface Record {
-  id: number;
+  //id: number;
   idd: string;
   prenom: string;
   inTime: string;

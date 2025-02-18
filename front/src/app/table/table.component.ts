@@ -62,9 +62,39 @@ export class TableComponent implements OnInit {
     });
   }
 
+
+
+
+editingIndex: number | null = null; // Track which row is being edited
+
+// **Start Editing a Record**
+startEditing(index: number): void {
+  this.editingIndex = index;
+}
+
+// **Confirm Update and Send Request**
+confirmUpdate(record: InsertedRecord, index: number): void {
+  if (!record.idd) {
+    console.error('❌ Error: Record ID is required!');
+    return;
+  }
+
+  this.uploadService.updateRecord(record.id, record).subscribe({
+    next: (response) => {
+      console.log(' Record updated successfully:', response);
+      this.editingIndex = null;
+    },
+    error: (error) => {
+      console.error(' Error updating record:', error);
+      this.errors.push(`Failed to update record: ${error.message}`);
+    }
+  });
+}
+
+
   exportCSV() {
     if (this.insertedRecords.length === 0) {
-      console.warn("⚠ No data to export.");
+      console.warn(" No data to export.");
       return;
     }
 

@@ -23,11 +23,32 @@
       <tr *ngFor="let record of insertedRecords; let i = index">
         <td>{{ record.id }}</td>
         <td>{{ record.idd }}</td>
-        <td>{{ record.prenom }}</td>
-        <td>{{ record.inTime }}</td>
-        <td>{{ record.outTime }}</td>
+
+        <!-- Editable fields when updating -->
+        <td>
+          <input *ngIf="editingIndex === i" [(ngModel)]="record.prenom" class="edit-input" />
+          <span *ngIf="editingIndex !== i">{{ record.prenom }}</span>
+        </td>
+
+        <td>
+          <input *ngIf="editingIndex === i" type="datetime-local" [(ngModel)]="record.inTime" class="edit-input" />
+          <span *ngIf="editingIndex !== i">{{ record.inTime }}</span>
+        </td>
+
+        <td>
+          <input *ngIf="editingIndex === i" type="datetime-local" [(ngModel)]="record.outTime" class="edit-input" />
+          <span *ngIf="editingIndex !== i">{{ record.outTime }}</span>
+        </td>
+
+        <!-- Action Buttons -->
         <td>
           <button class="delete-button" (click)="deleteRecord(record, i)">Delete</button>
+
+          <!-- Show "Update" button when not editing -->
+          <button *ngIf="editingIndex !== i" class="update-button" (click)="startEditing(i)">Update</button>
+
+          <!-- Show "Confirm" button when editing -->
+          <button *ngIf="editingIndex === i" class="confirm-button" (click)="confirmUpdate(record, i)">Confirm</button>
         </td>
       </tr>
     </tbody>
@@ -40,38 +61,5 @@
     <ul>
       <li *ngFor="let error of errors">{{ error }}</li>
     </ul>
-  </div>
-
-  <div *ngIf="isAddModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <h3>Add New Record</h3>
-
-      <form (ngSubmit)="onAdd()">
-        <div class="modal-field">
-          <label for="idd">ID:</label>
-          <input id="idd" type="text" [(ngModel)]="newRecord.id" name="idd" required>
-        </div>
-
-        <div class="modal-field">
-          <label for="prenom">Name:</label>
-          <input id="prenom" type="text" [(ngModel)]="newRecord.prenom" name="prenom" required>
-        </div>
-
-        <div class="modal-field">
-          <label for="inTime">In Time:</label>
-          <input id="inTime" type="datetime-local" [(ngModel)]="newRecord.inTime" name="inTime" required>
-        </div>
-
-        <div class="modal-field">
-          <label for="outTime">Out Time:</label>
-          <input id="outTime" type="datetime-local" [(ngModel)]="newRecord.outTime" name="outTime" required>
-        </div>
-
-        <div class="modal-buttons">
-          <button type="submit" class="confirm-button">Add</button>
-          <button type="button" class="cancel-button" (click)="closeAddModal()">Cancel</button>
-        </div>
-      </form>
-    </div>
   </div>
 </div>
