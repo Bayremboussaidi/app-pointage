@@ -15,10 +15,10 @@ public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // Primary key
+    private Long id;
 
-    @Column(name = "idd")  // Changed column name to avoid conflict
-    private String idd;  // The new ID field replacing "Nombre du personnel"
+    @Column(name = "idd")
+    private String idd;
 
     @Column(name = "prenom")
     private String prenom;
@@ -29,7 +29,6 @@ public class Record {
     @Column(name = "out_time")
     private LocalDateTime outTime;
 
-    // Getter and Setter for idd (Replaces "Nombre du personnel")
     public String getIdd() {
         return idd;
     }
@@ -47,7 +46,6 @@ public class Record {
         this.id = id;
     }
 
-    // Getter and Setter for Prénom
     public String getPrenom() {
         return prenom;
     }
@@ -56,7 +54,6 @@ public class Record {
         this.prenom = prenom;
     }
 
-    // Getter and Setter for inTime
     public LocalDateTime getInTime() {
         return inTime;
     }
@@ -65,7 +62,6 @@ public class Record {
         this.inTime = inTime;
     }
 
-    // Getter and Setter for outTime
     public LocalDateTime getOutTime() {
         return outTime;
     }

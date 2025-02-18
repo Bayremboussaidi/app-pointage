@@ -24,10 +24,9 @@ public class RecordService {
         Map<String, List<LocalDateTime>> outRecordsMap = new HashMap<>();
         Map<String, String> prénomMap = new HashMap<>();
 
-        // Step 1: Categorize records into separate In and Out lists
         for (Map<String, String> record : records) {
             try {
-                String id = record.get("id"); // Using "id" instead of "Nombre du personnel"
+                String id = record.get("id");
                 String status = record.get("In / Out Status");
                 String timeStr = record.get("Time");
                 String prénom = record.get("Prénom");
@@ -59,7 +58,6 @@ public class RecordService {
             }
         }
 
-        // Step 2: Match "In" times with the next valid "Out"
         for (Map.Entry<String, List<LocalDateTime>> entry : inRecordsMap.entrySet()) {
             String id = entry.getKey();
             List<LocalDateTime> inTimes = entry.getValue();
@@ -74,9 +72,8 @@ public class RecordService {
             for (int i = 0; i < inTimes.size(); i++) {
                 LocalDateTime inTime = inTimes.get(i);
 
-                // Ensure this "In" comes AFTER the last processed "Out"
                 if (lastOutTime != null && !inTime.isAfter(lastOutTime)) {
-                    continue; // Skip this "In" because it's before or at the last processed "Out"
+                    continue;
                 }
 
                 LocalDateTime validOutTime = null;
@@ -97,7 +94,7 @@ public class RecordService {
 
                 if (validOutTime != null) {
                     Record newRecord = new Record();
-                    newRecord.setIdd(id); // Using setIdd instead of setNombreDuPersonnel
+                    newRecord.setIdd(id);
                     newRecord.setInTime(inTime);
                     newRecord.setOutTime(validOutTime);
                     newRecord.setPrenom(prénomMap.get(id));

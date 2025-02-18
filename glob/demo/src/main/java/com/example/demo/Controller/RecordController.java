@@ -32,14 +32,14 @@ public class RecordController {
     }
     
 
-    // Update an existing record by ID (Changed from Long to String)
+    // Update
     @PutMapping("/update/{id}")
     public ResponseEntity<Record> updateRecord(@PathVariable long id, @RequestBody Record updatedRecord) {
         Record updated = recordService.updateRecord(id, updatedRecord);
         return ResponseEntity.ok(updated);
     }
 
-    // Delete a record by ID (Changed from personnelNumber to id)
+    // Delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRecord(@PathVariable long id) {
         recordService.deleteRecordById(id);
