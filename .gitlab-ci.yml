@@ -7,7 +7,7 @@ stages:
 variables:
   FRONT_DIR: "front"
   BACK_DIR: "back"
-  REGISTRY: registry.gitlab.com/YOUR_NAMESPACE/YOUR_PROJECT
+  REGISTRY: "registry.gitlab.com/bayremboussaidi/pointage"
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
   DOCKER_TLS_CERTDIR: ""
 
@@ -61,15 +61,37 @@ update_k8s:
   script:
     - git config --global user.email "ci@example.com"
     - git config --global user.name "GitLab CI"
-    - git clone https://oauth2:$CI_JOB_TOKEN@gitlab.com/YOUR_NAMESPACE/YOUR_K8S_REPO.git k8s-tmp
-    - cd k8s-tmp
+    - cd k8s
     - >-
       sed -i "s|image: .*frontend.*|image: ${REGISTRY}/frontend:${IMAGE_TAG}|g"
       k8s/frontend-deployment.yaml
     - >-
       sed -i "s|image: .*backend.*|image: ${REGISTRY}/backend:${IMAGE_TAG}|g"
       k8s/backend-deployment.yaml
-    - git commit -am "🔄 Update image tags to ${IMAGE_TAG}"
+    - git add .
+    - git commit -am "🔄 Update image tags to ${IMAGE_TAG}" || echo "No changes to commit"
     - git push origin main
   needs:
     - push_images
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
