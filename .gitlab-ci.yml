@@ -28,6 +28,7 @@ build_backend:
   before_script:
     - apk add --no-cache openjdk17 maven
   script:
+    - echo "🔧 Installing backend dependencies and building the Spring Boot app..."
     - cd $BACK_DIR
     - mvn clean package -DskipTests
     - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
