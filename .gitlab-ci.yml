@@ -24,28 +24,18 @@ build_angular_frontend:
     - cd $FRONT_DIR
     - npm install --legacy-peer-deps
     - npm run build -- --configuration=production
-
 build_backend:
   stage: build_backend
   image: maven:3.9.6-eclipse-temurin-21-alpine
-  services:
-    - name: docker:20.10.16-dind
-      alias: docker  # Required for service discovery
-  variables:
-    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   cache:
     key:
       files:
         - $BACK_DIR/pom.xml
     paths:
       - $BACK_DIR/.m2/repository
-  before_script:
-    - apk add --no-cache docker-cli
-    - docker info  # Verify Docker connection
   script:
     - cd $BACK_DIR
     - mvn clean package -DskipTests
-    - docker build -t $REGISTRY/backend:$IMAGE_TAG .
   artifacts:
     paths:
       - $BACK_DIR/target/
