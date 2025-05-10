@@ -11,21 +11,14 @@ variables:
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
   DOCKER_TLS_CERTDIR: ""
 
-build_frontend:
+build_angular_frontend:
   stage: build_frontend
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  before_script:
-    - apk add --no-cache nodejs npm
+  image: node:18  # Use Node.js image for Angular build
   script:
+    - echo "📦 Installing dependencies and building Angular app..."
     - cd $FRONT_DIR
     - npm install --legacy-peer-deps
     - npm run build -- --configuration=production
-    - docker build -t $REGISTRY/frontend:$IMAGE_TAG -f Dockerfile.front .
-  artifacts:
-    paths:
-      - $FRONT_DIR/dist/
 
 build_backend:
   stage: build_backend
@@ -52,7 +45,7 @@ push_images:
     - docker push $REGISTRY/frontend:$IMAGE_TAG
     - docker push $REGISTRY/backend:$IMAGE_TAG
   needs:
-    - build_frontend
+    - build_angular_frontend
     - build_backend
 
 update_k8s:
@@ -73,7 +66,3 @@ update_k8s:
     - git push origin main
   needs:
     - push_images
-
-
-
-
