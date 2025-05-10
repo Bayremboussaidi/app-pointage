@@ -22,16 +22,15 @@ build_angular_frontend:
 
 build_backend:
   stage: build_backend
-  image: docker:20.10.16
+  image: maven:3.9.6-eclipse-temurin-21-alpine  # JDK 21 image
   services:
     - docker:20.10.16-dind
   before_script:
-    - apk add --no-cache openjdk17 maven
+    - apk add --no-cache docker-cli  # Only needed for Docker operations
   script:
-    - echo "🔧 Installing backend dependencies and building the Spring Boot app..."
     - cd $BACK_DIR
     - mvn clean package -DskipTests
-    - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
+    - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back.
   artifacts:
     paths:
       - $BACK_DIR/target/
