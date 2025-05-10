@@ -33,7 +33,8 @@ build_backend:
   script:
     - cd $BACK_DIR
     - mvn clean package -DskipTests
-    - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
+    # Remove "-f Dockerfile.back" since you're using default Dockerfile name
+    - docker build -t $REGISTRY/backend:$IMAGE_TAG .
   artifacts:
     paths:
       - $BACK_DIR/target/
