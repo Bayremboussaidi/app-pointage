@@ -30,15 +30,16 @@ build_backend:
   cache:
     key:
       files:
-        - $BACK_DIR/pom.xml
+        - glob/demo/pom.xml
     paths:
-      - $BACK_DIR/.m2/repository
+      - glob/demo/.m2/repository
   script:
-    - cd $BACK_DIR
+    - cd glob/demo
     - mvn clean package -DskipTests
   artifacts:
     paths:
-      - $BACK_DIR/target/
+      - glob/demo/target/
+
 
 
 push_images:
