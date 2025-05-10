@@ -13,7 +13,10 @@ variables:
 
 build_angular_frontend:
   stage: build_frontend
-  image: node:18  # Use Node.js image for Angular build
+  image: node:18-bookworm-slim  # More specific Node.js image
+  before_script:
+    - node -v
+    - npm -v  # Verify npm existence
   script:
     - echo "📦 Installing dependencies and building Angular app..."
     - cd $FRONT_DIR
