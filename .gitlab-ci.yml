@@ -3,7 +3,6 @@ stages:
   - build_backend
   - push_images
   - update_k8s
-
 variables:
   FRONT_DIR: "front"
   BACK_DIR: "glob/demo"
@@ -12,7 +11,6 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375  # Required for dind connection
   DOCKER_BUILDKIT: 1  # Enable modern buildkit
-
 build_angular_frontend:
   stage: build_frontend
   image: node:18-bookworm-slim
@@ -39,8 +37,6 @@ build_backend:
   artifacts:
     paths:
       - glob/demo/target/
-
-
 push_images:
   stage: push_images
   image: docker:20.10.16
@@ -48,17 +44,11 @@ push_images:
     - docker:20.10.16-dind
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - echo "🔧 Building Docker image for frontend..."
-    - docker build -t $REGISTRY/frontend:$IMAGE_TAG $FRONT_DIR
-    - echo "🔧 Building Docker image for backend..."
-    - docker build -t $REGISTRY/backend:$IMAGE_TAG $BACK_DIR
-    - echo "📤 Pushing Docker images to registry..."
     - docker push $REGISTRY/frontend:$IMAGE_TAG
     - docker push $REGISTRY/backend:$IMAGE_TAG
   needs:
     - build_angular_frontend
     - build_backend
-
 update_k8s:
   stage: update_k8s
   image: alpine/git
@@ -72,8 +62,9 @@ update_k8s:
     - >-
       sed -i "s|image: .*backend.*|image: ${REGISTRY}/backend:${IMAGE_TAG}|g"
       k8s/backend-deployment.yaml
+
     - git add .
     - git commit -am "🔄 Update image tags to ${IMAGE_TAG}" || echo "No changes to commit"
     - git push origin main
   needs:
-    - push_images
+    - push_image
