@@ -31,6 +31,14 @@ build_backend:
   services:
     - name: docker:20.10.16-dind
       alias: docker  # Required for service discovery
+  variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  cache:
+    key:
+      files:
+        - $BACK_DIR/pom.xml
+    paths:
+      - $BACK_DIR/.m2/repository
   before_script:
     - apk add --no-cache docker-cli
     - docker info  # Verify Docker connection
@@ -41,6 +49,7 @@ build_backend:
   artifacts:
     paths:
       - $BACK_DIR/target/
+
 
 push_images:
   stage: push_images
