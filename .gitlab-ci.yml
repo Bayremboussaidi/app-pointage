@@ -6,7 +6,7 @@ stages:
 
 variables:
   FRONT_DIR: "front"
-  BACK_DIR: "back"
+  BACK_DIR: "glob/demo"
   REGISTRY: "registry.gitlab.com/bayremboussaidi/pointage"
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
   DOCKER_TLS_CERTDIR: ""
