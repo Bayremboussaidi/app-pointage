@@ -26,11 +26,11 @@ build_backend:
   services:
     - docker:20.10.16-dind
   before_script:
-    - apk add --no-cache docker-cli  # Only needed for Docker operations
-   script:
-     - cd $BACK_DIR
-     - mvn clean package -DskipTests
-     - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
+    - apk add --no-cache docker-cli
+  script:
+    - cd $BACK_DIR
+    - mvn clean package -DskipTests
+    - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
                                                        
 
   artifacts:
