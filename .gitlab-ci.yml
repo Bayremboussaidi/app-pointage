@@ -22,7 +22,7 @@ build_angular_frontend:
 
 build_backend:
   stage: build_backend
-  image: maven:3.9.6-eclipse-temurin-21-alpine  # JDK 21 image
+  image: maven:3.9.6-eclipse-temurin-21-alpine
   services:
     - docker:20.10.16-dind
   before_script:
@@ -31,8 +31,6 @@ build_backend:
     - cd $BACK_DIR
     - mvn clean package -DskipTests
     - docker build -t $REGISTRY/backend:$IMAGE_TAG -f Dockerfile.back .
-                                                       
-
   artifacts:
     paths:
       - $BACK_DIR/target/
