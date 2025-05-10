@@ -41,7 +41,6 @@ build_backend:
       - glob/demo/target/
 
 
-
 push_images:
   stage: push_images
   image: docker:20.10.16
@@ -49,6 +48,11 @@ push_images:
     - docker:20.10.16-dind
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - echo "🔧 Building Docker image for frontend..."
+    - docker build -t $REGISTRY/frontend:$IMAGE_TAG $FRONT_DIR
+    - echo "🔧 Building Docker image for backend..."
+    - docker build -t $REGISTRY/backend:$IMAGE_TAG $BACK_DIR
+    - echo "📤 Pushing Docker images to registry..."
     - docker push $REGISTRY/frontend:$IMAGE_TAG
     - docker push $REGISTRY/backend:$IMAGE_TAG
   needs:
