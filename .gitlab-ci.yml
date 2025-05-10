@@ -57,7 +57,7 @@ push_images:
 
 update_k8s:
   stage: update_k8s
-  image: alpine/git
+   image: alpine:latest
   script:
     - git config --global user.email "ci@example.com"
     - git config --global user.name "GitLab CI"
