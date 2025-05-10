@@ -10,13 +10,15 @@ variables:
   REGISTRY: "registry.gitlab.com/bayremboussaidi/pointage"
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
   DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375  # Required for dind connection
+  DOCKER_BUILDKIT: 1  # Enable modern buildkit
 
 build_angular_frontend:
   stage: build_frontend
-  image: node:18-bookworm-slim  # More specific Node.js image
+  image: node:18-bookworm-slim
   before_script:
     - node -v
-    - npm -v  # Verify npm existence
+    - npm -v
   script:
     - echo "📦 Installing dependencies and building Angular app..."
     - cd $FRONT_DIR
@@ -27,13 +29,14 @@ build_backend:
   stage: build_backend
   image: maven:3.9.6-eclipse-temurin-21-alpine
   services:
-    - docker:20.10.16-dind
+    - name: docker:20.10.16-dind
+      alias: docker  # Required for service discovery
   before_script:
     - apk add --no-cache docker-cli
+    - docker info  # Verify Docker connection
   script:
     - cd $BACK_DIR
     - mvn clean package -DskipTests
-    # Remove "-f Dockerfile.back" since you're using default Dockerfile name
     - docker build -t $REGISTRY/backend:$IMAGE_TAG .
   artifacts:
     paths:
