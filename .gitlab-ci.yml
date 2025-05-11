@@ -40,6 +40,8 @@ build_backend:
 push_images:
   stage: push_images
   image: docker:20.10.16
+
+  
   services:
     - docker:20.10.16-dind
   script:
@@ -49,22 +51,22 @@ push_images:
   needs:
     - build_angular_frontend
     - build_backend
+
+
+
 update_k8s:
   stage: update_k8s
-  image: alpine/git
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+  before_script:
+    - echo "$KUBECONFIG_CONTENT" > $KUBECONFIG
   script:
-    - git config --global user.email "ci@example.com"
-    - git config --global user.name "GitLab CI"
-    - cd k8s
-    - >-
-      sed -i "s|image: .*frontend.*|image: ${REGISTRY}/frontend:${IMAGE_TAG}|g"
-      k8s/frontend-deployment.yaml
-    - >-
-      sed -i "s|image: .*backend.*|image: ${REGISTRY}/backend:${IMAGE_TAG}|g"
-      k8s/backend-deployment.yaml
-
-    - git add .
-    - git commit -am "🔄 Update image tags to ${IMAGE_TAG}" || echo "No changes to commit"
-    - git push origin main
+    - export IMAGE_TAG=$IMAGE_TAG
+    - export REGISTRY=$REGISTRY
+    - envsubst < k8s/frontend-deployment.yaml | kubectl apply -f -
+    - kubectl apply -f k8s/frontend-service.yaml
+    - envsubst < k8s/backend-deployment.yaml | kubectl apply -f -
+    - kubectl apply -f k8s/backend-service.yaml
   needs:
     - push_images
