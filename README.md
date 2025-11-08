@@ -77,7 +77,7 @@ The frontend displays:
 
 | Feature | Screenshot |
 |----------|-------------|
-| 🔍 Search by ID Between Two Dates | ![Search by ID](./screenshots/id.PNG) |
+| 🔍 Search by ID Between Two Dates | ![Search by ID](screenshots/id.PNG) |
 | 👥 View All Workers | ![All Workers](./screenshots/all.PNG) |
 
 
