@@ -102,39 +102,11 @@ Each Git commit triggers Jenkins to:
 2. Build Docker images (frontend + backend)  
 3. Push images to a private registry  
 4. Deploy automatically via ArgoCD to Kubernetes
-5. 
 
 
 
 
-🔄 CI/CD Workflow 
 
-
-| 🧠 CI/CD Pipeline Stages | Screenshot |
-|--------------------------|-------------|
-| Build → Push → Update K8s | ![GitLab CI/CD](./screenschots/cicd.PNG) |
-
-
-
-
-#### `Jenkinsfile`
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage('Build & Push Docker Images') {
-      steps {
-        sh 'docker-compose build'
-        sh 'docker-compose push'
-      }
-    }
-    stage('Deploy to K8s') {
-      steps {
-        sh 'kubectl apply -f k8s/'
-      }
-    }
-  }
-}
 
 
 
