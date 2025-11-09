@@ -1,6 +1,6 @@
 # ⏱ Smart Attendance Processing System (Pointage App)
 
-![Banner](./screenshots/banner.png)
+
 <!-- Replace with a screenshot or banner of your dashboard -->
 
 ![Angular](https://img.shields.io/badge/Angular-18-red?logo=angular)
