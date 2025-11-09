@@ -124,20 +124,12 @@ pipeline {
 
 
 
-🔄 CI/CD Workflow Diagram
+🔄 CI/CD Workflow 
 
 
-GitHub Commit
-     ↓
- Jenkins Build & Test
-     ↓
- Docker Image Build & Push
-     ↓
-   ArgoCD Sync
-     ↓
- Kubernetes Deployment
-     ↓
-   Pointage App (Running)
+| 🧠 CI/CD Pipeline Stages | Screenshot |
+|--------------------------|-------------|
+| Build → Push → Update K8s | ![GitLab CI/CD](./screenshots/cicd.png) |
 
 
 
