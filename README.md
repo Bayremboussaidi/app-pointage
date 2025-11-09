@@ -101,7 +101,21 @@ Each Git commit triggers Jenkins to:
 1. Pull the latest code from GitHub  
 2. Build Docker images (frontend + backend)  
 3. Push images to a private registry  
-4. Deploy automatically via ArgoCD to Kubernetes  
+4. Deploy automatically via ArgoCD to Kubernetes
+5. 
+
+
+
+
+🔄 CI/CD Workflow 
+
+
+| 🧠 CI/CD Pipeline Stages | Screenshot |
+|--------------------------|-------------|
+| Build → Push → Update K8s | ![GitLab CI/CD](./screenschots/cicd.PNG) |
+
+
+
 
 #### `Jenkinsfile`
 ```groovy
