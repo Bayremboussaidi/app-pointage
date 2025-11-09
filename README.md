@@ -129,7 +129,7 @@ pipeline {
 
 | 🧠 CI/CD Pipeline Stages | Screenshot |
 |--------------------------|-------------|
-| Build → Push → Update K8s | ![GitLab CI/CD](./screenschots/cicd.PNG) |
+| Build → Push → Update K8s | ![GitLab CI/CD](./screenschots/cicd.PNG) 
 
 
 
